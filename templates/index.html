@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+        $("#button-submit").click(function(){
+
+            var name = $("#name").val();
+            var password = $("#pass").val();
+
+            $.ajax({
+                url: '{% url "test" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'name': name, 'password': password},
+                dataType: 'json',
+                success: function (data) {
+                if (data.success) {
+                    $("#myname").text(data.name);
+                    $("#mypass").text(data.password);
+                }
+                else{
+                    alert("bad");
+                }
+                $("body").append(data.success);
+
+}
+});
+
+});
+
+});
+    </script>
+
+</head>
+<body>
+
+<input type="text" id='name'>
+<input type="password" id='pass'>
+
+<input type="button" id="button-submit">
+
+<div id='myname'>
+
+</div>
+
+<div id='mypass'>
+
+</div>
+
+
+</body>
+</html>
