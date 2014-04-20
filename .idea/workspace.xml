@@ -455,7 +455,11 @@
       <created>1398032113672</created>
       <updated>1398032113672</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="changed redirect loop">
+      <created>1398032139640</created>
+      <updated>1398032139641</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
