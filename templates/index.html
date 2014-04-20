@@ -33,13 +33,7 @@
                 success: function (data) {
                 if (data.success) {
 
-                    $("#log_in").hide()
-                    $("#register_div").hide()
-                    $("#log_out").show()
-                    $("#expence_info").show()
-
-                    $("#my_name").html(data.name);
-                    $("#my_pass").html(data.password);
+                    window.location = "profile/";
 
 
 
@@ -173,6 +167,9 @@
 
 </head>
 <body>
+<h1>{{ request.user }}</h1>
+
+<div class="logout"> logout <input type="button" value="logout"></div>
 {% block body %}
 
 <div id="log_in">
