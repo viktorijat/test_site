@@ -10,11 +10,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js" type="text/javascript"></script>
 
 
-
     <script>
 
         $(document).ready(function () {
-
+        {% block javascript %}
 
 
         $("#birthday").click(function() {
@@ -166,6 +165,7 @@
 
         });
 
+            {% endblock %}
 
 });
 
@@ -173,7 +173,7 @@
 
 </head>
 <body>
-
+{% block body %}
 
 <div id="log_in">
 
@@ -232,6 +232,6 @@
 
 
 
-
+{% endblock %}
 </body>
 </html>

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
+{% extends 'index.html' %}
 
-
-
-<script>
-
-    $(document).ready(function () {
-
+{   {% block javascript %}
     $("#submit_expence").click(function(){
 
         var amount = $("#amount").val();
@@ -44,25 +36,9 @@
         });
 
     });
+    {% endblock %}
 
-});
-
-
-
-
-</script>
-
-
-
-
-
-
-
-
-
-
-</head>
-<body>
+{% block body %}
 
 </div>
 
@@ -101,9 +77,4 @@
 
 </div>
 
-
-
-
-
-</body>
-</html>
+{% endblock %}

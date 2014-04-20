@@ -131,10 +131,8 @@ def expense_added(request):
 def profile(request):
 
     print(request)
-    t = loader.get_template('profile.html')
-    c = Context(request)
-    return HttpResponseRedirect(t.render(c),
-        content_type="application/xhtml+xml")
+    return render_to_response('profile.html', locals(),
+                              context_instance=RequestContext(request))
     '''
     def get_queryset(self):
         """Return the last five published questions."""
