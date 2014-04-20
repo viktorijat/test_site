@@ -53,8 +53,6 @@ def log_in_form_event(request):
                 login(request, user)
 
                 response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "logged in"}
-                return HttpResponseRedirect(reverse('profile'), response)
-                #return render(request, 'profile.html', response)
 
             except:
 

@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'toptal_site.views.home', name='home'),
     # url(r'^blog/', include('blog.urls'))',
 
-    url(r'^home/', home, name='home'),
+    url(r'^$', home, name='home'),
 
     url(r'^register_form_event/', register_form_event, name='register_form_event'),
 
