@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'javascript_settings',
     'account',
     'south',
-    'expence',
 
 )
 
@@ -64,6 +63,8 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, '..', "static")
 
 STATIC_URL = 'static/'
 
+
+LOGIN_REDIRECT_URL = '/profiles/home'
 
 TEMPLATE_LOADERS = (
   'django.template.loaders.filesystem.Loader',
