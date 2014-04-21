@@ -23,6 +23,7 @@ from django.contrib.auth import authenticate, login
 
 from django.views.decorators.csrf import csrf_exempt
 
+from django.utils.dateformat import DateFormat, TimeFormat
 
 def home(request):
     return render_to_response('index.html', locals(),
@@ -108,27 +109,37 @@ def register_form_event(request):
 @csrf_exempt
 def expense_added(request):
 
+    submitted_amount = float(request.POST["amount"])
+    now = datetime.datetime.now()
+    date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
+    time = ':'.join([str(now.hour).zfill(2), str(now.minute).zfill(2), str(now.second).zfill(2)])
+    current_user = request.user
+    print("current user")
+    print(current_user)
+    current_user_id = current_user.id
 
-    b = Expense(amount=request.POST["amount"],
-                description=request.POST["description"],
-                date=request.POST["date"],
-                time=request.POST["time"],
-                comment=request.POST["comment"],
-                user=User.objects.get(username=request.POST["name"]))
+    if submitted_amount > 0.0:
 
-    b.save()
+        exp = Expense(expense_name=request.POST["expense_name"],
+                      amount=request.POST["amount"],
+                      description=request.POST["description"],
+                      date=date,
+                      time=time,
+                      comment=request.POST["comment"],
+                      user=User.objects.get(username=current_user))
 
+        exp.save()
+        response = {'success': True, 'note': "you just added an expense"}
 
+    else:
 
-    response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "you just added an expense"}
+        response = {'success': False, 'note': "you entered a negative number"}
 
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-
 def profile(request):
 
-    print(request)
     return render_to_response('profile.html', locals(),
                               context_instance=RequestContext(request))
     '''
@@ -137,20 +148,6 @@ def profile(request):
         return Expense.objects.all()
         #.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
     '''
-
-
-
-@csrf_exempt
-def user_profile(request):
-
-    #template_name = 'profile.html'
-    #t = loader.get_template(reverse('expence/templates/profile.html'))
-    c = RequestContext(request, {'name': request.POST["name"], 'password': request.POST["password"]})
-    #return HttpResponse(t.render(c), content_type="application/xhtml+xml")
-    return render_to_response('profile.html', locals(),
-                              context_instance=c)
-
-    #return render(request, 'profile.html')
 
 
 @csrf_exempt
@@ -165,3 +162,31 @@ def logout_user(request):
     else:
         response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "user isnt logged out"}
         return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+def details(request):
+
+    response = {'success': False, 'note': "user is not authenticated"}
+    if request.user.is_authenticated():
+        response = {'success': True, 'note': "user is authenticated"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+
+def detail_view(request):
+
+    return render_to_response('detail_view.html', locals(),
+                              context_instance=RequestContext(request))
+
+    '''
+    current_user = request.user
+
+    expense_name = Expense.expense_name
+    amount = Expense.amount
+    description = Expense.description
+    date = Expense.date
+    time = Expense.time
+    comment = Expense.comment
+    user = Expense.user
+    '''

@@ -1,28 +1,25 @@
 {% extends 'index.html' %}
 
-{   {% block javascript %}
-    $("#submit_expence").click(function(){
+{{% block javascript %}
+    $("#submit_expense").click(function(){
 
+        var expense_name = $("#expense_name").val();
         var amount = $("#amount").val();
         var description = $("#description").val();
-        var date = $("#date").val();
-        var time = $("#time").val();
         var comment = $("#comment").val();
-
-
-        var name = $("#my_name").html();
-        var password = $("#my_pass").html();
 
         $.ajax({
 
                 url: '{% url "expense_added" %}',
                 type: 'POST',
-                data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'name': name, 'password': password, 'amount': amount, 'description': description, 'date': date, 'time': time, 'comment': comment},
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'expense_name': expense_name, 'amount': amount, 'description': description, 'comment': comment},
                 dataType: 'json',
                 success: function(data){
 
                     if (data.success){
                     alert(data.note);
+
+
 
                     }
 
@@ -36,6 +33,39 @@
         });
 
     });
+
+
+    $("#detail_view").click(function(){
+
+        $.ajax({
+
+                url: '{% url "details" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+
+                    if (data.success){
+
+                    alert(data.note);
+                    window.location = "detail_view/";
+
+
+                    }
+
+                else{
+
+                    alert(data.note);
+                }
+
+            }
+
+        });
+
+    });
+
+
+
     {% endblock %}
 
 {% block body %}
@@ -55,8 +85,10 @@ asdfasdf asd fasdfa sdfasdfasdf
 
 </div>
 
+<div id="expence_info">
 
-<div id="expence_info" style="display: none">
+    <p><label>Name</label></p>
+    <p><input type="text" id='expense_name'></p>
 
     <p><label>Amount</label></p>
     <p><input type="text" id='amount'></p>
@@ -64,16 +96,16 @@ asdfasdf asd fasdfa sdfasdfasdf
     <p><label>Description</label></p>
     <p><input type="text" id='description'></p>
 
-    <p><label>Date</label></p>
-    <p><input type="date" id='date'></p>
-
-    <p><label>Time</label></p>
-    <p><input type="time" id='time'></p>
-
     <p><label>Comment</label></p>
     <p><input type="text" id='comment'></p>
 
-    <p><input type="button" id="submit_expence" value="Submit"></p>
+    <p><input type="button" id="submit_expense" value="Submit"></p>
+
+</div>
+
+<div>
+
+<p><input type="button" id="detail_view" value="Detail View"></p>
 
 </div>
 <!--'something'-->

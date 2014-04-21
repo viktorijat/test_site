@@ -20,6 +20,10 @@ urlpatterns = patterns('',
 
     url(r'^profile/', profile, name='profile'),
 
+    url(r'^details/', details, name='details'),
+
+    url(r'^profile/detail_view/', detail_view, name='detail_view'),
+
 
     url(r'^admin/', include(admin.site.urls)),
     #media

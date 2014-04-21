@@ -34,13 +34,9 @@
                 if (data.success) {
 
                     window.location = "profile/";
-
-
-
-
+                    //window.location = "";
 
                     alert(data.note);
-
 
                     }
                 else{
@@ -70,14 +66,16 @@
                 success: function (data) {
                 if (data.success) {
 
-                    $("#log_in").hide()
-                    $("#register_div").hide()
-                    $("#log_out").show()
-                    $("#expence_info").show()
+                    //$("#log_in").hide()
+                    //$("#register_div").hide()
+                    //$("#log_out").show()
+                    //$("#expence_info").show()
+
+                    window.location = "profile/";
 
 
-                    $("#my_name").html(data.name);
-                    $("#my_pass").html(data.password);
+                    //$("#my_name").html(data.name);
+                    //$("#my_pass").html(data.password);
 
                     alert(data.note);
 
@@ -123,43 +121,16 @@
             });
         });
 
-    $("#submit_expence").click(function(){
-
-            var amount = $("#amount").val();
-            var description = $("#description").val();
-            var date = $("#date").val();
-            var time = $("#time").val();
-            var comment = $("#comment").val();
-
-
-            var name = $("#my_name").html();
-            var password = $("#my_pass").html();
-
-            $.ajax({
-
-                    url: '{% url "expense_added" %}',
-                    type: 'POST',
-                    data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'name': name, 'password': password, 'amount': amount, 'description': description, 'date': date, 'time': time, 'comment': comment},
-                    dataType: 'json',
-                    success: function(data){
-
-                        if (data.success){
-                        alert(data.note);
-
-                        }
-
-                    else{
-
-                        alert(data.note);
-                    }
-
-                }
-
-            });
-
-        });
 
             {% endblock %}
+           // Eeverything in here will be included on all pages
+
+
+
+
+
+
+           //End global javascript
 
 });
 
@@ -167,9 +138,11 @@
 
 </head>
 <body>
+<!--"will always show because out of block"-->
 <h1>{{ request.user }}</h1>
-
 <div class="logout"> logout <input type="button" value="logout"></div>
+
+<!--"everything in block will be handled by django template and swapped out if inherits from index.html"-->
 {% block body %}
 
 <div id="log_in">
