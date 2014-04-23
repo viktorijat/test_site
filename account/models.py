@@ -13,3 +13,6 @@ class Expense(models.Model):
     time = models.TimeField(max_length=300)
     comment = models.TextField(max_length=500)
     user = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return self.expense_name

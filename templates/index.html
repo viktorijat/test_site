@@ -33,7 +33,14 @@
                 success: function (data) {
                 if (data.success) {
 
-                    window.location = "profile/";
+                    $("#log_in").hide()
+                    $("#register_div").hide()
+                    $("#log_out").show()
+                    $("#add_new_expense").show()
+                    $("#expense_detail_view").show()
+                    $("#average_day_spending_view").show()
+
+                    //window.location = "add_new_expense/";
                     //window.location = "";
 
                     alert(data.note);
@@ -66,12 +73,15 @@
                 success: function (data) {
                 if (data.success) {
 
-                    //$("#log_in").hide()
-                    //$("#register_div").hide()
-                    //$("#log_out").show()
-                    //$("#expence_info").show()
+                    $("#log_in").hide()
+                    $("#register_div").hide()
+                    $("#log_out").show()
+                    $("#add_new_expense").show()
+                    $("#expense_detail_view").show()
+                    $("#average_day_spending_view").show()
 
-                    window.location = "profile/";
+
+                    //window.location = "add_new_expense/";
 
 
                     //$("#my_name").html(data.name);
@@ -91,6 +101,7 @@
             });
 
         });
+
         $("#button_log_out").click(function(){
 
             var name = $("#my_name").html();
@@ -102,20 +113,86 @@
                 dataType: 'json',
                 success: function(data){
                     if (data.success){
+
                     alert(data.note);
                     $("#log_out").hide()
                     $("#log_in").show()
                     $("#register_div").show()
-                    $("#expence_info").hide()
+                    $("#add_new_expense").hide()
+                    $("#expense_detail_view").hide()
+
                     $("#name_log_in").text("");
                     $("#pass_log_in").text("");
                     $("#name").text("");
                     $("#email").text("");
                     $("#pass").text("");
                     $("#pass1").text("");
+
                     }
                 else{
                     alert(data.note);
+                    }
+                }
+            });
+        });
+
+
+        $("#button_add_new_expense").click(function(){
+
+            $.ajax({
+
+                url: '{% url "add_new_expense_url" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+                    if (data.success){
+                    window.location = "add_new_expense/";
+                    //alert(data.note);
+                    }
+                else{
+                    alert("bad add expense");
+                    }
+                }
+            });
+        });
+
+        $("#button_expense_detail_view").click(function(){
+
+            $.ajax({
+
+                url: '{% url "details" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+                    if (data.success){
+                    window.location = "detail_view/";
+                    //alert(data.note);
+                    }
+                else{
+                    alert("bad detail view");
+                    }
+                }
+            });
+        });
+
+
+        $("#average_day_spending").click(function(){
+
+            $.ajax({
+
+                url: '{% url "details" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+                    if (data.success){
+                    window.location = "average_day_spending/";
+                    //alert(data.note);
+                    }
+                else{
+                    alert("bad avg view");
                     }
                 }
             });
@@ -184,6 +261,27 @@
     <input type="button" id="button_log_out" value="log out">
 
 </div>
+
+<div id="add_new_expense" style="display: none;">
+
+    <input type="button" id="button_add_new_expense" value="Add Expense">
+
+</div>
+
+
+<div id="expense_detail_view" style="display: none;">
+
+    <input type="button" id="button_expense_detail_view" value="Detail View">
+
+</div>
+
+
+<div id="average_day_spending_view" style="display: none;">
+
+    <input type="button" id="average_day_spending" value="Average day spending">
+
+</div>
+
 
 <div id='myname'>
 

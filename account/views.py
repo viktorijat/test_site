@@ -9,23 +9,25 @@ import datetime
 import pytz
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-
+from django.views.decorators.csrf import csrf_exempt
 from django.views import generic
 
-
+from  django.utils.decorators import method_decorator
 from account.models import Expense
-
+from datetime import date, timedelta
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import Context, loader
 from django.contrib.auth import authenticate, login
-
+import types
 from django.views.decorators.csrf import csrf_exempt
 
 from django.utils.dateformat import DateFormat, TimeFormat
 
+
 def home(request):
+
     return render_to_response('index.html', locals(),
                               context_instance=RequestContext(request))
 
@@ -95,9 +97,9 @@ def register_form_event(request):
                     print("ima coek")
 
                 response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "user is created"}
-                #return render_to_response(response, 'profile.html')
+                #return render_to_response(response, 'add_new_expense.html')
                 #return HttpResponseRedirect(reverse('profile'), response)
-                return render(request, 'profile.html', response)
+                return render(request, 'add_new_expense.html', response)
 
             else:
 
@@ -138,16 +140,28 @@ def expense_added(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-def profile(request):
+@csrf_exempt
+def add_new_expense_url(request):
 
-    return render_to_response('profile.html', locals(),
+    response = {'success': True, 'note': "add expense"}
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+
+
+
+@csrf_exempt
+def add_new_expense(request):
+
+    return render_to_response('add_new_expense.html', locals(),
                               context_instance=RequestContext(request))
-    '''
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Expense.objects.all()
-        #.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
-    '''
+
+
+@csrf_exempt
+def go_back_url(request):
+
+    response = {'success': True, 'note': "add expense"}
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
 @csrf_exempt
@@ -163,7 +177,7 @@ def logout_user(request):
         response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "user isnt logged out"}
         return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
-
+@csrf_exempt
 def details(request):
 
     response = {'success': False, 'note': "user is not authenticated"}
@@ -173,20 +187,159 @@ def details(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-
+@csrf_exempt
 def detail_view(request):
 
-    return render_to_response('detail_view.html', locals(),
-                              context_instance=RequestContext(request))
-
-    '''
     current_user = request.user
+    current_user_id = current_user.id
 
-    expense_name = Expense.expense_name
-    amount = Expense.amount
-    description = Expense.description
-    date = Expense.date
-    time = Expense.time
-    comment = Expense.comment
-    user = Expense.user
-    '''
+    exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
+
+    response = {'objects', exp_list}
+    for i in exp_list:
+        print(i.expense_name)
+        print(i.date)
+        print(i.time)
+
+    return render(request, 'detail_view.html', response)
+    #return render_to_response('detail_view.html', locals(),
+    #                      context_instance=RequestContext(response))
+
+
+class DetailView(generic.ListView):
+
+    template_name = "detail_view.html"
+    context_object_name = 'exp_list'
+
+    def get_queryset(self):
+
+        current_user = self.request.user
+        current_user_id = current_user.id
+
+        exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
+        print(exp_list)
+        return exp_list
+
+
+def delete_expense(request):
+
+    response = {'success': False, 'note': "field is blank"}
+    current_user = request.user
+    current_user_id = current_user.id
+
+    exp_id = request.POST['exp_id']
+    e = (Expense.objects.get(id=exp_id, user=current_user_id))
+    if e is not None:
+        e.delete()
+        response = {'success': True, 'note': "expense deleted"}
+    else:
+        response = {'success': False, 'note': "no such expense"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+def edit_expense(request):
+
+    response = {'success': False, 'note': "field is blank"}
+    current_user = request.user
+    current_user_id = current_user.id
+    now = datetime.datetime.now()
+    date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
+    time = ':'.join([str(now.hour).zfill(2), str(now.minute).zfill(2), str(now.second).zfill(2)])
+
+    exp_id = request.POST['exp_id']
+    e = (Expense.objects.get(id=exp_id, user=current_user_id))
+    if e:
+        e.expense_name = request.POST['exp_name']
+        e.amount = request.POST['exp_amount']
+        e.description = request.POST['exp_descr']
+        e.comment = request.POST['exp_comment']
+        e.date = date
+        e.time = time
+        e.save()
+        response = {'success': True, 'exp_id': exp_id, 'expense_name': request.POST['exp_name'], 'amount': request.POST['exp_amount'],
+                    'description': request.POST['exp_descr'], 'comment': request.POST['exp_comment'],
+                    'date': date, 'time': time, 'note': "expense edited"}
+    else:
+        response = {'success': False, 'note': "no such expense"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+
+
+
+@csrf_exempt
+def calculate_day(request):
+
+    avg = 0
+    response = {'success': False, 'avg': avg, 'note': "no entries"}
+    current_user = request.user
+    current_user_id = current_user.id
+    #received_date = str(request.POST['date'])
+    #year = received_date.split("-")[0]
+    #mnt = received_date.split("-")[1]
+    #day = received_date.split("-")[2]
+    #date = '-'.join([str(year).zfill(4), str(mnt).zfill(2), str(day).zfill(2)])
+
+    e = list(Expense.objects.filter(user=current_user_id))
+    if e:
+        days = []
+        for enrty in e:
+            this_date = enrty.date
+            if this_date not in days:
+                days.append(this_date)
+
+        amounts = []
+        for day in days:
+            a = list(Expense.objects.filter(user=current_user_id, date=day))
+            suma = 0
+            if a:
+                for entry2 in a:
+                    suma += entry2.amount
+            amounts.append(suma)
+
+        sum3 = 0
+        for s3 in amounts:
+            sum3 += s3
+
+        avg = sum3/len(amounts)
+        response = {'success': True, 'avg': avg, 'note': "avg calculated"}
+
+    else:
+        response = {'success': False, 'avg': avg, 'note': "no entries"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+@csrf_exempt
+def calculate_this_week(request):
+
+    now = datetime.datetime.now()
+    date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
+    time = ':'.join([str(now.hour).zfill(2), str(now.minute).zfill(2), str(now.second).zfill(2)])
+
+
+    today = datetime.datetime.today().weekday() + 1
+    first_week_day = now - datetime.timedelta(days=today-1)
+    print(first_week_day)
+
+    first_date = '-'.join([str(first_week_day.year).zfill(4), str(first_week_day.month).zfill(2), str(first_week_day.day).zfill(2)])
+    rest = 7 - today
+    last_week_day = now + datetime.timedelta(days=rest)
+    print(last_week_day)
+
+    last_date = '-'.join([str(last_week_day.year).zfill(4), str(last_week_day.month).zfill(2), str(last_week_day.day).zfill(2)])
+    e = list(Expense.objects.filter(date__range=(first_date, last_date)))
+    total = 0
+    if e:
+        for entry in e:
+            total += entry.amount
+        response = {'success': True, 'total': total, 'note': "total for this week calculated"}
+    else:
+        response = {'success': False, 'total': total, 'note': "no entries"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+

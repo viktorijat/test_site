@@ -1,11 +1,205 @@
-{% extends 'profile.html' %}
+{% extends 'index.html' %}
 
+{% block javascript %}
+
+    $("#delete_expense").click(function(){
+
+        var exp_id = $("#expense_id").val();
+
+        $.ajax({
+            url: '{% url "delete_expense" %}',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'exp_id': exp_id},
+            dataType: 'json',
+            success: function (data) {
+            if (data.success) {
+                alert(data.note);
+                }
+            else{
+                alert(data.note);
+                }
+            $("body").append(data.success);
+
+
+            }
+        });
+
+    });
+
+
+    $("#edit_expense").click(function(){
+
+        var exp_id = $("#exp_id").val();
+        var exp_name = $("#exp_name").val();
+        var exp_amount = $("#exp_amount").val();
+        var exp_descr = $("#exp_descr").val();
+        var exp_comment = $("#exp_comment").val();
+
+        $.ajax({
+            url: '{% url "edit_expense" %}',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'exp_id': exp_id, 'exp_name': exp_name, 'exp_amount': exp_amount, 'exp_descr': exp_descr, 'exp_comment': exp_comment},
+            dataType: 'json',
+            success: function (data) {
+            if (data.success) {
+                alert(data.note);
+                window.location = "detail_view/";
+                $('#names').reload('#names');
+                }
+            else
+            {
+                alert(data.note);
+
+                for (var i = 0, n = exp_list.length; i < n; i++)
+                {
+                    var txt = ("#exp_list[i].id").val()
+                    var e_id = data.exp_id
+                    if (txt == e_id)
+                    {
+                        exp_list[i].expense_name.text(data.expense_name);
+                        exp_list[i].amount.text(data.amount);
+                        exp_list[i].description.text(data.description);
+                        exp_list[i].date.text(data.date);
+                        exp_list[i].time.text(data.time);
+                        exp_list[i].comment.text(data.comment);
+                    }
+                }
+            }
+            $("body").append(data.success);
+
+
+            }
+        });
+
+    });
+
+
+    $("#calculate_day").click(function(){
+
+        $.ajax({
+
+                url: '{% url "calculate_day" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+                    if (data.success){
+                        alert(data.note);
+                        $("#calculate_day_avg").html(data.avg);
+                        }
+
+                    else{
+                        alert(data.note);
+                        }
+                    }
+
+                });
+
+        });
+
+
+    $("#calculate_this_week").click(function(){
+
+        $.ajax({
+
+                url: '{% url "calculate_this_week" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+                    if (data.success){
+                        alert(data.note);
+                        $("#this_week_total").html(data.total);
+                        }
+
+                    else{
+                        alert(data.note);
+                        }
+                    }
+
+                });
+
+        });
+
+
+{% endblock %}
 
 {% block body %}
 
 <div>
 
    <h1>detail view</h1>
+
+<div id="names">
+
+    <p>
+    <tr>
+    <td><label>id</label></td>
+    <td><label>name</label></td>
+    <td><label>amount</label></td>
+    <td><label>description</label></td>
+    <td><label>date</label></td>
+    <td><label>time</label></td>
+    <td><label>comment</label></td>
+    </tr>
+    </p>
+{% for exp in exp_list %}
+    <p>
+    <tr>
+    <td><label id="id">{{ exp.id }}</label></td>
+    <td><label id="expense_name">{{ exp.expense_name }}</label></td>
+    <td><label id="amount">{{ exp.amount }}</label></td>
+    <td><label id="description">{{ exp.description }}</label></td>
+    <td><label id="date">{{ exp.date }}</label></td>
+    <td><label id="time">{{ exp.time }}</label></td>
+    <td><label id="comment">{{ exp.comment }}</label></td>
+    </tr>
+    </p>
+{% endfor %}
+</div>
+
+
+<div id="expense_avg_div">
+    <p><input type="button" id="calculate_day" value="get average per day"></p>
+    <p><label id="calculate_day_avg"></label></p>
+
+</div>
+
+
+<div id="total_week">
+    <p><input type="button" id="calculate_this_week" value="get total this week"></p>
+    <p><label id="this_week_total"></label></p>
+</div>
+
+<div>
+
+<p><label>Enter expense ID</label></p>
+<p><input type="text" id="expense_avg"></p>
+<p><input type="button" id="delete_expense" value="delete expense"></p>
+
+</div>
+
+<div>
+<p><label>Edit expense from id</label></p>
+
+    <p><label>id</label></p>
+    <p><input type="text" id="exp_id"></p>
+
+    <p><label>name</label></p>
+    <p><input type="text" id="exp_name"></p>
+
+    <p><label>amount</label></p>
+    <p><input type="text" id="exp_amount"></p>
+
+    <p><label>description</label></p>
+    <p><input type="text" id="exp_descr"></p>
+
+    <p><label>comment</label></p>
+    <p><input type="text" id="exp_comment"></p>
+
+    <p><input type="button" id="edit_expense" value="edit expense"></p>
+
+</div>
 
 </div>
 
