@@ -16,11 +16,18 @@ urlpatterns = patterns('',
     url(r'^register_form_event/', register_form_event, name='register_form_event'),
     url(r'^log_in_form_event/', log_in_form_event, name='log_in_form_event'),
     url(r'^logout_user/', logout_user, name='logout_user'),
+
+    url(r'^profile/', profile, name='profile'),
+
+
     url(r'^add_new_expense_url/', add_new_expense_url, name='add_new_expense_url'),
     url(r'^add_new_expense/', add_new_expense, name='add_new_expense'),
     url(r'^go_back_url/', go_back_url, name='go_back_url'),
+
     url(r'^details/', details, name='details'),
-    url(r'^detail_view/', DetailView.as_view(), name='detail_view'),
+
+    url(r'^detail_view/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view'),
+
     url(r'^expense_added/', expense_added, name='expense_added'),
     url(r'^delete_expense/', delete_expense, name='delete_expense'),
     url(r'^edit_expense/', edit_expense, name='edit_expense'),

@@ -1,9 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'index.html' %}
 
-</body>
-</html>
+{% block javascript %}
+
+    $("#button_expense_detail_view").click(function(){
+
+        $.ajax({
+
+            url: '{% url "details" %}',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+            dataType: 'json',
+            success: function(data){
+                if (data.success){
+                window.location = "detail_view/";
+                alert("dtl view");
+                }
+            else{
+                alert("bad detail view");
+                }
+            }
+        });
+    });
+
+{% endblock %}
+
+
+{% block body %}
+
+<div id="log_out" style="display: none;"><input type="button" id="button_log_out" value="log out"></div>
+
+<div id="add_new_expense" style="display: none;"><input type="button" id="button_add_new_expense" value="Add Expense"></div>
+
+<div id="expense_detail_view"><input type="button" id="button_expense_detail_view" value="Detail View"></div>
+
+<div id="average_day_spending_view" style="display: none;"><input type="button" id="average_day_spending" value="Average day spending"></div>
+
+<div id='myname'><label id="my_name" visible="false"></label></div>
+
+<div id='mypass'><label id="my_pass" visible="false"></label></div>
+
+
+{% endblock %}
+
+
+

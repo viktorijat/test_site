@@ -24,6 +24,7 @@ import types
 from django.views.decorators.csrf import csrf_exempt
 
 from django.utils.dateformat import DateFormat, TimeFormat
+from django.template.response import TemplateResponse
 
 
 def home(request):
@@ -140,6 +141,19 @@ def expense_added(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
+
+
+@csrf_exempt
+def profile(request):
+
+
+
+    return render_to_response('profile.html', locals(),
+                              context_instance=RequestContext(request))
+
+
+
+
 @csrf_exempt
 def add_new_expense_url(request):
 
@@ -164,6 +178,10 @@ def go_back_url(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
+
+
+
+
 @csrf_exempt
 def logout_user(request):
 
@@ -186,7 +204,7 @@ def details(request):
 
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
-
+'''
 @csrf_exempt
 def detail_view(request):
 
@@ -195,19 +213,23 @@ def detail_view(request):
 
     exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
 
-    response = {'objects', exp_list}
+    response = {'success': True, 'objects': exp_list}
     for i in exp_list:
         print(i.expense_name)
         print(i.date)
         print(i.time)
 
-    return render(request, 'detail_view.html', response)
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+    #return render(request, 'detail_view.html', response)
     #return render_to_response('detail_view.html', locals(),
     #                      context_instance=RequestContext(response))
+
+'''
 
 
 class DetailView(generic.ListView):
 
+    model = Expense
     template_name = "detail_view.html"
     context_object_name = 'exp_list'
 
@@ -217,8 +239,13 @@ class DetailView(generic.ListView):
         current_user_id = current_user.id
 
         exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
-        print(exp_list)
         return exp_list
+        #return render(self.request, "detail_view.html", exp_list)
+        #response = {'success': True, 'exp_list': exp_list, 'note': "user is authenticated"}
+
+        #return TemplateResponse(self.request, "detail_view.html", response)
+        #response = {'success': False, 'exp_list': exp_list, 'note': "no such expense"}
+        #return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
 def delete_expense(request):
