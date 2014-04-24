@@ -26,7 +26,8 @@ urlpatterns = patterns('',
 
     url(r'^details/', details, name='details'),
 
-    url(r'^detail_view/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view'),
+#    url(r'^detail_view/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view'),
+    url(r'^detail_view/', detail_view, name='detail_view'),
 
     url(r'^expense_added/', expense_added, name='expense_added'),
     url(r'^delete_expense/', delete_expense, name='delete_expense'),

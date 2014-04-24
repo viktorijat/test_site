@@ -28,13 +28,11 @@ from django.template.response import TemplateResponse
 
 
 def home(request):
-
     return render_to_response('index.html', locals(),
                               context_instance=RequestContext(request))
 
 
 def log_in_form_event(request):
-
     response = {'success': False}
     user = authenticate(username=request.POST["name"], password=request.POST["password"])
 
@@ -56,11 +54,13 @@ def log_in_form_event(request):
 
                 login(request, user)
 
-                response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "logged in"}
+                response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"],
+                            'note': "logged in"}
 
             except:
 
-                response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "password is bad"}
+                response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"],
+                            'note': "password is bad"}
                 #return HttpResponseRedirect('/home/')
 
     #return HttpResponseRedirect('profile', response)
@@ -68,14 +68,13 @@ def log_in_form_event(request):
 
 
 def register_form_event(request):
-
-
     response = {'success': False}
 
     try:
 
         user = User.objects.get(username=request.POST["name"])
-        response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "this user exists"}
+        response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"],
+                    'note': "this user exists"}
 
     except User.DoesNotExist:
 
@@ -97,21 +96,22 @@ def register_form_event(request):
                 except IntegrityError:
                     print("ima coek")
 
-                response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "user is created"}
+                response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"],
+                            'note': "user is created"}
                 #return render_to_response(response, 'add_new_expense.html')
                 #return HttpResponseRedirect(reverse('profile'), response)
                 return render(request, 'add_new_expense.html', response)
 
             else:
 
-                response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "the two passwords dont match"}
+                response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"],
+                            'note': "the two passwords dont match"}
 
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
 @csrf_exempt
 def expense_added(request):
-
     submitted_amount = float(request.POST["amount"])
     now = datetime.datetime.now()
     date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
@@ -141,98 +141,77 @@ def expense_added(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-
-
 @csrf_exempt
 def profile(request):
-
-
-
     return render_to_response('profile.html', locals(),
                               context_instance=RequestContext(request))
 
 
-
-
 @csrf_exempt
 def add_new_expense_url(request):
-
     response = {'success': True, 'note': "add expense"}
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-
-
-
 @csrf_exempt
 def add_new_expense(request):
-
     return render_to_response('add_new_expense.html', locals(),
                               context_instance=RequestContext(request))
 
 
 @csrf_exempt
 def go_back_url(request):
-
     response = {'success': True, 'note': "add expense"}
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-
-
-
-
 @csrf_exempt
 def logout_user(request):
-
     response = {'success': False}
     if request.user.is_authenticated():
         logout(request)
         #return HttpResponseRedirect(reverse('home'), request)
-        response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "user is logged out"}
+        response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"],
+                    'note': "user is logged out"}
         return HttpResponseRedirect('home')
     else:
-        response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"], 'note': "user isnt logged out"}
+        response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"],
+                    'note': "user isnt logged out"}
         return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
 
 @csrf_exempt
 def details(request):
-
     response = {'success': False, 'note': "user is not authenticated"}
     if request.user.is_authenticated():
         response = {'success': True, 'note': "user is authenticated"}
 
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
-'''
+
 @csrf_exempt
 def detail_view(request):
-
     current_user = request.user
     current_user_id = current_user.id
-
+    template = loader.get_template("detail_view.html")
     exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
-
-    response = {'success': True, 'objects': exp_list}
-    for i in exp_list:
-        print(i.expense_name)
-        print(i.date)
-        print(i.time)
-
-    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+    response = {'success': True, 'exp_list': exp_list}
+    #return HttpResponse(template.render(response), mimetype="text/javascript")
     #return render(request, 'detail_view.html', response)
-    #return render_to_response('detail_view.html', locals(),
-    #                      context_instance=RequestContext(response))
+    #return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+    #return render(request, 'detail_view.html', response)
+    return render_to_response('detail_view.html', locals(),
+                              context_instance=RequestContext(response))
+
 
 '''
-
-
 class DetailView(generic.ListView):
 
     model = Expense
     template_name = "detail_view.html"
     context_object_name = 'exp_list'
 
+    @csrf_exempt
     def get_queryset(self):
 
         current_user = self.request.user
@@ -240,6 +219,7 @@ class DetailView(generic.ListView):
 
         exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
         return exp_list
+        #response = {"exp_list": exp_list}
         #return render(self.request, "detail_view.html", exp_list)
         #response = {'success': True, 'exp_list': exp_list, 'note': "user is authenticated"}
 
@@ -248,8 +228,10 @@ class DetailView(generic.ListView):
         #return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-def delete_expense(request):
+'''
 
+
+def delete_expense(request):
     response = {'success': False, 'note': "field is blank"}
     current_user = request.user
     current_user_id = current_user.id
@@ -266,7 +248,6 @@ def delete_expense(request):
 
 
 def edit_expense(request):
-
     response = {'success': False, 'note': "field is blank"}
     current_user = request.user
     current_user_id = current_user.id
@@ -284,7 +265,8 @@ def edit_expense(request):
         e.date = date
         e.time = time
         e.save()
-        response = {'success': True, 'exp_id': exp_id, 'expense_name': request.POST['exp_name'], 'amount': request.POST['exp_amount'],
+        response = {'success': True, 'exp_id': exp_id, 'expense_name': request.POST['exp_name'],
+                    'amount': request.POST['exp_amount'],
                     'description': request.POST['exp_descr'], 'comment': request.POST['exp_comment'],
                     'date': date, 'time': time, 'note': "expense edited"}
     else:
@@ -293,12 +275,8 @@ def edit_expense(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-
-
-
 @csrf_exempt
 def calculate_day(request):
-
     avg = 0
     response = {'success': False, 'avg': avg, 'note': "no entries"}
     current_user = request.user
@@ -330,7 +308,7 @@ def calculate_day(request):
         for s3 in amounts:
             sum3 += s3
 
-        avg = sum3/len(amounts)
+        avg = sum3 / len(amounts)
         response = {'success': True, 'avg': avg, 'note': "avg calculated"}
 
     else:
@@ -341,22 +319,22 @@ def calculate_day(request):
 
 @csrf_exempt
 def calculate_this_week(request):
-
     now = datetime.datetime.now()
     date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
     time = ':'.join([str(now.hour).zfill(2), str(now.minute).zfill(2), str(now.second).zfill(2)])
 
-
     today = datetime.datetime.today().weekday() + 1
-    first_week_day = now - datetime.timedelta(days=today-1)
+    first_week_day = now - datetime.timedelta(days=today - 1)
     print(first_week_day)
 
-    first_date = '-'.join([str(first_week_day.year).zfill(4), str(first_week_day.month).zfill(2), str(first_week_day.day).zfill(2)])
+    first_date = '-'.join(
+        [str(first_week_day.year).zfill(4), str(first_week_day.month).zfill(2), str(first_week_day.day).zfill(2)])
     rest = 7 - today
     last_week_day = now + datetime.timedelta(days=rest)
     print(last_week_day)
 
-    last_date = '-'.join([str(last_week_day.year).zfill(4), str(last_week_day.month).zfill(2), str(last_week_day.day).zfill(2)])
+    last_date = '-'.join(
+        [str(last_week_day.year).zfill(4), str(last_week_day.month).zfill(2), str(last_week_day.day).zfill(2)])
     e = list(Expense.objects.filter(date__range=(first_date, last_date)))
     total = 0
     if e:
