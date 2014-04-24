@@ -199,9 +199,10 @@ def detail_view(request):
     #return HttpResponse(template.render(response), mimetype="text/javascript")
     #return render(request, 'detail_view.html', response)
     #return HttpResponse(simplejson.dumps(response), mimetype='application/json')
-    #return render(request, 'detail_view.html', response)
     return render_to_response('detail_view.html', locals(),
-                              context_instance=RequestContext(response))
+                              context_instance=RequestContext(request))
+
+
 
 
 '''

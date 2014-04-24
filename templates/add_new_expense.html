@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'profile.html' %}
 
 {{% block javascript %}
     $("#submit_expense").click(function(){
@@ -42,7 +42,6 @@
 <div id='myname'>
 
 <label id="my_name" visible="true"></label>
-asdfasdf asd fasdfa sdfasdfasdf
 </div>
 
 <div id='mypass'>
@@ -51,6 +50,8 @@ asdfasdf asd fasdfa sdfasdfasdf
 
 
 </div>
+
+<h1>{{ request.user }}</h1>
 
 <div id="expence_info">
 

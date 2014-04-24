@@ -14,11 +14,31 @@
                 success: function(data){
                     if (data.success){
                     alert(data.note);
-                    window.location.assign("detail_view/");
+                    window.location.href = "/detail_view/";
                     //alert(data.note);
                     }
                 else{
                     alert("bad detail view");
+                    }
+                }
+            });
+        });
+
+        $("#button_add_new_expense").click(function(){
+
+            $.ajax({
+
+                url: '{% url "add_new_expense_url" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                dataType: 'json',
+                success: function(data){
+                    if (data.success){
+                    window.location = "/add_new_expense/";
+                    //alert(data.note);
+                    }
+                else{
+                    alert("bad add expense");
                     }
                 }
             });
@@ -29,9 +49,10 @@
 
 {% block body %}
 
-<div id="log_out" style="display: none;"><input type="button" id="button_log_out" value="log out"></div>
+<h1>{{ request.user }}</h1>
 
-<div id="add_new_expense" style="display: none;"><input type="button" id="button_add_new_expense" value="Add Expense"></div>
+
+<div id="add_new_expense"><input type="button" id="button_add_new_expense" value="Add Expense"></div>
 
 <div id="expense_detail_view"><input type="button" id="button_expense_detail_view" value="Detail View"></div>
 
@@ -42,7 +63,11 @@
 <div id='mypass'><label id="my_pass" visible="false"></label></div>
 
 
+
 {% endblock %}
+
+<div id="log_out"><input type="button" id="button_log_out" value="log out"></div>
+
 
 
 
