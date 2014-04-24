@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77c3b553-8323-4f95-a03e-2dfe8252f31a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_new_expense.html" afterPath="$PROJECT_DIR$/templates/add_new_expense.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/profile.html" afterPath="$PROJECT_DIR$/templates/profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/account/views.py" afterPath="$PROJECT_DIR$/account/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="toptal_site.iws" />
@@ -68,7 +64,7 @@
       <file leaf-file-name="profile.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="28" selection-start="335" selection-end="335" vertical-scroll-proportion="0.25531915" vertical-offset="0" max-vertical-offset="1343">
+            <state line="35" column="38" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.7446808" vertical-offset="0" max-vertical-offset="1343">
               <folding>
                 <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
               </folding>
@@ -503,7 +499,11 @@
       <created>1398372028436</created>
       <updated>1398372028436</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="detail_view.html as detail_view/ when redirected to after the first page works correct, but when redirected from profile/ to be profile/detail_view and render detail_view.htmp it doesnt render in the browser, just in the preview">
+      <created>1398375663744</created>
+      <updated>1398375663744</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -903,7 +903,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/profile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="28" selection-start="335" selection-end="335" vertical-scroll-proportion="0.25531915" vertical-offset="0" max-vertical-offset="1343">
+        <state line="35" column="38" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.7446808" vertical-offset="0" max-vertical-offset="1343">
           <folding>
             <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
           </folding>
