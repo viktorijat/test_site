@@ -178,25 +178,6 @@
         });
 
 
-        $("#average_day_spending").click(function(){
-
-            $.ajax({
-
-                url: '{% url "details" %}',
-                type: 'POST',
-                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
-                dataType: 'json',
-                success: function(data){
-                    if (data.success){
-                    window.location = "average_day_spending/";
-                    //alert(data.note);
-                    }
-                else{
-                    alert("bad avg view");
-                    }
-                }
-            });
-        });
 
 
             {% endblock %}
@@ -261,8 +242,6 @@
 <div id="add_new_expense" style="display: none;"><input type="button" id="button_add_new_expense" value="Add Expense"></div>
 
 <div id="expense_detail_view" style="display: none;"><input type="button" id="button_expense_detail_view" value="Detail View"></div>
-
-<div id="average_day_spending_view" style="display: none;"><input type="button" id="average_day_spending" value="Average day spending"></div>
 
 <div id='myname'><label id="my_name" visible="false"></label></div>
 
