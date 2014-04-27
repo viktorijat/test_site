@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="77c3b553-8323-4f95-a03e-2dfe8252f31a" name="Default" comment="dn">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/exact_date.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_new_expense.html" afterPath="$PROJECT_DIR$/templates/add_new_expense.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/detail_view.html" afterPath="$PROJECT_DIR$/templates/detail_view.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/profile.html" afterPath="$PROJECT_DIR$/templates/profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toptal_site/urls.py" afterPath="$PROJECT_DIR$/toptal_site/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/account/views.py" afterPath="$PROJECT_DIR$/account/views.py" />
+    <list default="true" id="77c3b553-8323-4f95-a03e-2dfe8252f31a" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/exact_amount.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="toptal_site.iws" />
@@ -33,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/account/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="247" column="31" selection-start="8617" selection-end="8617" vertical-scroll-proportion="0.0" vertical-offset="3365" max-vertical-offset="6817">
+            <state line="250" column="51" selection-start="8768" selection-end="8768" vertical-scroll-proportion="0.520564" vertical-offset="3365" max-vertical-offset="6817">
               <folding />
             </state>
           </provider>
@@ -54,7 +47,7 @@
       <file leaf-file-name="detail_view.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/detail_view.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="203" column="0" selection-start="5480" selection-end="5480" vertical-scroll-proportion="-22.576923" vertical-offset="2864" max-vertical-offset="6562">
+            <state line="181" column="46" selection-start="4829" selection-end="4829" vertical-scroll-proportion="-4.269231" vertical-offset="2966" max-vertical-offset="6562">
               <folding />
             </state>
           </provider>
@@ -114,10 +107,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="exact_amount.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="exact_amount.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/exact_amount.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="32" selection-start="480" selection-end="480" vertical-scroll-proportion="0.5477327" vertical-offset="0" max-vertical-offset="918">
+            <state line="39" column="14" selection-start="914" selection-end="914" vertical-scroll-proportion="-25.5" vertical-offset="0" max-vertical-offset="765">
               <folding />
             </state>
           </provider>
@@ -524,13 +517,18 @@
       <created>1398375673432</created>
       <updated>1398375673432</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="dn">
+      <created>1398613171239</created>
+      <updated>1398613171239</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="891" y="0" width="1029" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -546,7 +544,6 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17665952" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -890,13 +887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/toptal_site/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.0" vertical-offset="50" max-vertical-offset="1122">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/account/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="31" selection-start="511" selection-end="511" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
@@ -911,23 +901,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/detail_view.html">
+    <entry file="file://$PROJECT_DIR$/toptal_site/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="0" selection-start="5480" selection-end="5480" vertical-scroll-proportion="-22.576923" vertical-offset="2864" max-vertical-offset="6562">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/account/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="31" selection-start="8617" selection-end="8617" vertical-scroll-proportion="0.0" vertical-offset="3365" max-vertical-offset="6817">
+        <state line="38" column="0" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.0" vertical-offset="50" max-vertical-offset="1122">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/exact_amount.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="32" selection-start="480" selection-end="480" vertical-scroll-proportion="0.5477327" vertical-offset="0" max-vertical-offset="918">
+        <state line="39" column="14" selection-start="914" selection-end="914" vertical-scroll-proportion="-25.5" vertical-offset="0" max-vertical-offset="765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/detail_view.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="46" selection-start="4829" selection-end="4829" vertical-scroll-proportion="-4.269231" vertical-offset="2966" max-vertical-offset="6562">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/account/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="250" column="51" selection-start="8768" selection-end="8768" vertical-scroll-proportion="0.520564" vertical-offset="3365" max-vertical-offset="6817">
           <folding />
         </state>
       </provider>
