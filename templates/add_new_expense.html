@@ -37,35 +37,36 @@
 
 {% block body %}
 
-</div>
-
-<div id='myname'>
-
-<label id="my_name" visible="true"></label>
-</div>
-
-<div id='mypass'>
-
-<label id="my_pass" visible="true"></label>
-
-
-</div>
-
 <h1>{{ request.user }}</h1>
 
 <div id="expence_info">
+    <p>
+        <tr>
+            <td><label>Name</label></td>
+            <td><input type="text" id='expense_name'></td>
+        </tr>
+    </p>
 
-    <p><label>Name</label></p>
-    <p><input type="text" id='expense_name'></p>
+    <p>
+        <tr>
+            <td><label>Amount</label></td>
+            <td><input type="text" id='amount'></td>
+        </tr>
+    </p>
 
-    <p><label>Amount</label></p>
-    <p><input type="text" id='amount'></p>
+    <p>
+        <tr>
+            <td><label>Description</label></td>
+            <td><input type="text" id='description'></td>
+        </tr>
+    </p>
 
-    <p><label>Description</label></p>
-    <p><input type="text" id='description'></p>
-
-    <p><label>Comment</label></p>
-    <p><input type="text" id='comment'></p>
+    <p>
+        <tr>
+            <td><label>Comment</label></td>
+            <td><input type="text" id='comment'></td>
+        </tr>
+    </p>
 
     <p><input type="button" id="submit_expense" value="Submit"></p>
 
@@ -75,5 +76,4 @@
 
 
 </div>
-<!--'something'-->
 {% endblock %}

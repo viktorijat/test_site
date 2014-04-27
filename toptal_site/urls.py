@@ -29,11 +29,24 @@ urlpatterns = patterns('',
 #    url(r'^detail_view/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view'),
     url(r'^detail_view/', detail_view, name='detail_view'),
 
+
+    url(r'^exact_date/', exact_date, name='exact_date'),
+    url(r'^exact_date_view/', exact_date_view, name='exact_date_view'),
+
+    url(r'^exact_amount/', exact_amount, name='exact_amount'),
+    url(r'^exact_amount_view/', exact_amount_view, name='exact_amount_view'),
+
+
+
     url(r'^expense_added/', expense_added, name='expense_added'),
     url(r'^delete_expense/', delete_expense, name='delete_expense'),
     url(r'^edit_expense/', edit_expense, name='edit_expense'),
     url(r'^calculate_day/', calculate_day, name='calculate_day'),
     url(r'^calculate_this_week/', calculate_this_week, name='calculate_this_week'),
+
+    url(r'^try_delete/', try_delete, name='try_delete'),
+
+
 
 
 

@@ -167,17 +167,15 @@ def go_back_url(request):
 
 @csrf_exempt
 def logout_user(request):
+
     response = {'success': False}
     if request.user.is_authenticated():
         logout(request)
-        #return HttpResponseRedirect(reverse('home'), request)
-        response = {'success': True, 'name': request.POST["name"], 'password': request.POST["password"],
-                    'note': "user is logged out"}
-        return HttpResponseRedirect('home')
+        response = {'success': True, 'note': "user is logged out"}
     else:
-        response = {'success': False, 'name': request.POST["name"], 'password': request.POST["password"],
-                    'note': "user isnt logged out"}
-        return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+        response = {'success': False, 'note': "user isnt logged out"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
 @csrf_exempt
@@ -201,6 +199,69 @@ def detail_view(request):
     #return HttpResponse(simplejson.dumps(response), mimetype='application/json')
     return render_to_response('detail_view.html', locals(),
                               context_instance=RequestContext(request))
+
+@csrf_exempt
+def exact_date(request):
+    response = {'success': False, 'note': "user is not authenticated"}
+    if request.user.is_authenticated():
+        response = {'success': True, 'note': "user is authenticated"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+@csrf_exempt
+def exact_date_view(request):
+
+    current_user = request.user
+    current_user_id = current_user.id
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    submitted_date = request.POST['chosen_date']
+    print(submitted_date)
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+    #now = datetime.datetime.now()
+    #date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
+
+
+    template = loader.get_template("exact_date.html")
+    flt_date_list = ((Expense.objects.filter(user=current_user_id, date=datetime.date(2009, 8, 22))))
+
+    return render_to_response('exact_date.html', locals(),
+                              context_instance=RequestContext(request))
+
+
+
+
+
+@csrf_exempt
+def exact_date(request):
+    response = {'success': False, 'note': "user is not authenticated"}
+    if request.user.is_authenticated():
+        response = {'success': True, 'note': "user is authenticated"}
+
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+@csrf_exempt
+def exact_date_view(request):
+
+    current_user = request.user
+    current_user_id = current_user.id
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    submited_amount = request.POST['chosen_amount']
+    print(submited_amount)
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+    #now = datetime.datetime.now()
+    #date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
+
+
+    template = loader.get_template("exact_amount.html")
+    flt_amount_list = (Expense.objects.filter(user=current_user_id, amount=submited_amount))
+
+    return render_to_response('exact_amount.html', locals(),
+                              context_instance=RequestContext(request))
+
 
 
 
@@ -246,6 +307,15 @@ def delete_expense(request):
         response = {'success': False, 'note': "no such expense"}
 
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
+
+def try_delete(request):
+
+    print("tryyyyyyyy deleteeeeeeeeeeeeeee")
+    print(request.POST["exp_id"])
+    response = {'success': True, 'note': "deleted"}
+    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+
 
 
 def edit_expense(request):

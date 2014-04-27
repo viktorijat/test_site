@@ -1,5 +1,39 @@
 {% extends 'profile.html' %}
 
+
+
+<script>
+
+
+
+
+        function try_delete(exp_id) {
+
+            $.ajax({
+
+                    url: '{% url "try_delete" %}',
+                    type: 'POST',
+                    data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'exp_id': exp_id},
+                    dataType: 'json',
+                    success: function(data){
+                        if (data.success){
+                            alert(data.note);
+
+                            }
+
+                        else{
+                            alert(data.note);
+                            }
+                        }
+
+                    });
+
+        }
+
+
+
+</script>
+
 {% block javascript %}
 
     $("#delete_expense").click(function(){
@@ -122,9 +156,65 @@
         });
 
 
+        $("#filter_exact_date_btn").click(function(){
+
+
+            var chosen_date = $("#filter_exact_date").val();
+            $.ajax({
+
+                url: '{% url "exact_date" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'chosen_date': chosen_date},
+                dataType: 'json',
+                async: true,
+                success: function(data){
+                    if (data.success){
+                        window.location.href = "/exact_date_view/";
+                    }
+                    else{
+                        alert(data.note);
+                        }
+                }
+            });
+        });
+
+
+        $("#filter_exact_amount_btn").click(function(){
+
+
+            var chosen_amount = $("#filter_exact_amount").val();
+            $.ajax({
+
+                url: '{% url "exact_amount" %}',
+                type: 'POST',
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'chosen_amount': chosen_amount},
+                dataType: 'json',
+                async: true,
+                success: function(data){
+                    if (data.success){
+                        window.location.href = "/exact_amount_view/";
+                    }
+                    else{
+                        alert(data.note);
+                        }
+                }
+            });
+        });
+
+
+
 {% endblock %}
 
+
+
+
+
+
+
+
 {% block body %}
+
+<h1>{{ request.user }}</h1>
 
 <div>
 
@@ -153,53 +243,138 @@
     <td><label id="date">{{ exp.date }}</label></td>
     <td><label id="time">{{ exp.time }}</label></td>
     <td><label id="comment">{{ exp.comment }}</label></td>
+
+
+    <!--<td><button onclick="try_delete({{ exp.id }})" value="delete">Delete</button></td>-->
+
     </tr>
     </p>
+
+
 {% endfor %}
+
 </div>
 
+<div id="selected"></div>
 
 <div id="expense_avg_div">
-    <p><input type="button" id="calculate_day" value="get average per day"></p>
-    <p><label id="calculate_day_avg"></label></p>
-
+    <p>
+        <tr>
+            <td><input type="button" id="calculate_day" value="get average per day"></td>
+            <td><label id="calculate_day_avg"></label></td>
+        </tr>
+    </p>
 </div>
 
 
 <div id="total_week">
-    <p><input type="button" id="calculate_this_week" value="get total this week"></p>
-    <p><label id="this_week_total"></label></p>
+    <p>
+        <tr>
+            <td><input type="button" id="calculate_this_week" value="get total this week"></td>
+            <td><label id="this_week_total"></label></td>
+        </tr>
+    </p>
 </div>
 
 <div>
-
-<p><label>Enter expense ID</label></p>
-<p><input type="text" id="expense_avg"></p>
-<p><input type="button" id="delete_expense" value="delete expense"></p>
+    <p>
+        <tr>
+            <td><input type="text" id="expense_avg"></td>
+            <td><input type="button" id="delete_expense" value="delete expense"></td>
+        </tr>
+    </p>
 
 </div>
 
 <div>
 <p><label>Edit expense from id</label></p>
 
-    <p><label>id</label></p>
-    <p><input type="text" id="exp_id"></p>
+    <p>
+        <tr>
+            <td><label>id</label></td>
+            <td><label>name</label></td>
+            <td><label>amount</label></td>
+            <td><label>description</label></td>
+            <td><label>comment</label></td>
+            <td><label></label></td>
+        </tr>
+    </p>
 
-    <p><label>name</label></p>
-    <p><input type="text" id="exp_name"></p>
-
-    <p><label>amount</label></p>
-    <p><input type="text" id="exp_amount"></p>
-
-    <p><label>description</label></p>
-    <p><input type="text" id="exp_descr"></p>
-
-    <p><label>comment</label></p>
-    <p><input type="text" id="exp_comment"></p>
-
-    <p><input type="button" id="edit_expense" value="edit expense"></p>
+    <p>
+        <tr>
+            <td><input type="text" id="exp_id"></td>
+            <td><input type="text" id="exp_name"></td>
+            <td><input type="text" id="exp_amount"></td>
+            <td><input type="text" id="exp_descr"></td>
+            <td><input type="text" id="exp_comment"></td>
+            <td><input type="button" id="edit_expense" value="edit expense"></td>
+        </tr>
+    </p>
 
 </div>
+
+<div>
+
+    <p>
+        <tr>
+            <td><label>filter by exact date</label></td>
+            <td><input type="date" id="filter_exact_date"></td>
+            <td><input type="button" id="filter_exact_date_btn" value="filter"></td>
+        </tr>
+    </p>
+
+    <p>
+        <tr>
+            <td><label>filter by date between</label></td>
+            <td><input type="date" id="filter_date_one"></td>
+            <td><input type="date" id="filter_date_two"></td>
+            <td><input type="button" id="filter_date_between_btn" value="filter"></td>
+        </tr>
+    </p>
+
+    <p>
+        <tr>
+            <td><label>filter by exact amount</label></td>
+            <td><input type="text" id="filter_exact_amount"></td>
+            <td><input type="button" id="filter_exact_amount_btn" value="filter"></td>
+        </tr>
+    </p>
+
+    <p>
+        <tr>
+            <td><label>filter by amount between</label></td>
+            <td><input type="text" id="filter_amount_one"></td>
+            <td><input type="text" id="filter_amount_two"></td>
+            <td><input type="button" id="filter_amount_between_btn" value="filter"></td>
+        </tr>
+    </p>
+
+    <p>
+        <tr>
+            <td><label>filter by name containing string</label></td>
+            <td><input type="text" id="filter_name"></td>
+            <td><input type="button" id="filter_name_btn" value="filter"></td>
+        </tr>
+    </p>
+
+    <p>
+        <tr>
+            <td><label>filter by description containing string</label></td>
+            <td><input type="text" id="filter_desc"></td>
+            <td><input type="button" id="filter_desc_btn" value="filter"></td>
+        </tr>
+    </p>
+
+    <p>
+        <tr>
+            <td><label>filter by comment containing string</label></td>
+            <td><input type="text" id="filter_comment"></td>
+            <td><input type="button" id="filter_comment_btn" value="filter"></td>
+        </tr>
+    </p>
+
+</div>
+
 
 </div>
 

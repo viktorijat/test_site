@@ -1,0 +1,48 @@
+{% extends 'detail_view.html' %}
+
+{% block javascript %}
+{% endblock %}
+
+
+{% block body %}
+
+<h1>{{ request.user }}</h1>
+
+<div>
+
+   <h1>detail view</h1>
+
+<div id="names">
+
+    <p>
+    <tr>
+    <td><label>id</label></td>
+    <td><label>name</label></td>
+    <td><label>amount</label></td>
+    <td><label>description</label></td>
+    <td><label>date</label></td>
+    <td><label>time</label></td>
+    <td><label>comment</label></td>
+    </tr>
+    </p>
+{% for exp in flt_date_list %}
+    <p>
+    <tr>
+    <td><label id="id">{{ exp.id }}</label></td>
+    <td><label id="expense_name">{{ exp.expense_name }}</label></td>
+    <td><label id="amount">{{ exp.amount }}</label></td>
+    <td><label id="description">{{ exp.description }}</label></td>
+    <td><label id="date">{{ exp.date }}</label></td>
+    <td><label id="time">{{ exp.time }}</label></td>
+    <td><label id="comment">{{ exp.comment }}</label></td>
+
+
+    <!--<td><button onclick="try_delete({{ exp.id }})" value="delete">Delete</button></td>-->
+
+    </tr>
+    </p>
+
+
+{% endfor %}
+
+{% endblock %}
