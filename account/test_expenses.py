@@ -32,6 +32,8 @@ def main(argv):
   from django.template.loader import render_to_string
   import toptal_site.settings
   print(version)
+
+
   #TestExpenses.test_profile_view(self=None)
 
 
