@@ -15,7 +15,5 @@ class TestExpenses:
 
         response = self.client.post(reverse('log_in_form_event'),
                                     {'success': True, 'username': 'user1', 'password': 'asdf', 'note': "password is good"})
-
         user = User.objects.get(username='user1')
-
         assert user.is_authenticated()
