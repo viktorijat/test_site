@@ -1,0 +1,50 @@
+body {background-color:#afcbd2;}
+
+p{font-family:"Verdana", Times, Sans-serif;}
+h1{font-family:"Verdana", Times, Sans-serif;}
+
+
+input[type=button] {
+    color:#08233e;
+    font-family:"Verdana", Times, Sans-serif;
+    font-size:70%;
+    cursor:pointer;
+    width:15.4em;
+    height:2em;
+}
+
+input[type=text] {
+    color:#08233e;
+    font-family:"Verdana", Times, Sans-serif;
+    font-size:70%;
+    cursor:pointer;
+    width:15em;
+    height:1.5em;
+}
+
+input[type=date] {
+    color:#08233e;
+    font-family:"Verdana", Times, Sans-serif;
+    font-size:70%;
+    cursor:pointer;
+    width:14.9em;
+    height:1.8em;
+}
+
+input[type=password] {
+    color:#08233e;
+    font-family:"Verdana", Times, Sans-serif;
+    font-size:70%;
+    cursor:pointer;
+    width:15em;
+    height:1.5em;
+}
+
+label {
+  width:11.5em;
+  display: inline-table;
+  font-size:95%;
+}
+
+body {min-width:4150px;}
+

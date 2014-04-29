@@ -41,8 +41,14 @@ INSTALLED_APPS = (
     'javascript_settings',
     'account',
     'south',
+    'rest_framework',
 
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,8 +67,7 @@ MEDIA_URL = 'media/'
 
 STATIC_ROOT = os.path.join(PROJECT_DIR, '..', "static")
 
-STATIC_URL = 'static/'
-
+STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/profile/'
 
@@ -76,6 +81,7 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\', '/'),)
 
+STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'static').replace('\\', '/'),)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -88,12 +94,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 )
 
-
-
 STATICFILES_FINDERS = (
-    'javascript_settings.finders.JavascriptSettingsFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
 ROOT_URLCONF = 'toptal_site.urls'
 
 WSGI_APPLICATION = 'toptal_site.wsgi.application'
@@ -127,3 +132,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}style.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -194,12 +195,11 @@
 
     </script>
 
+
+
 </head>
 <body>
-<!--"will always show because out of block"-->
 
-
-<!--"everything in block will be handled by django template and swapped out if inherits from index.html"-->
 {% block body %}
 
 <div id="log_in">
@@ -222,9 +222,6 @@
 
     <p><label>Email</label></p>
     <p><input type="text" id='email'></p>
-
-    <p><label>Birthday</label></p>
-    <p><input type="text" id='birthday'></p>
 
     <p><label>Password</label></p>
     <p><input type="password" id='pass'></p>

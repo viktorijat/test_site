@@ -29,12 +29,7 @@ urlpatterns = patterns('',
 #    url(r'^detail_view/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view'),
     url(r'^detail_view/', detail_view, name='detail_view'),
 
-
-    url(r'^exact_date/', exact_date, name='exact_date'),
-    url(r'^exact_date_view/', exact_date_view, name='exact_date_view'),
-
-    url(r'^exact_amount/', exact_amount, name='exact_amount'),
-    url(r'^exact_amount_view/', exact_amount_view, name='exact_amount_view'),
+    url(r'^filter_all_func/', filter_all_func, name='filter_all_func'),
 
 
 
@@ -44,7 +39,6 @@ urlpatterns = patterns('',
     url(r'^calculate_day/', calculate_day, name='calculate_day'),
     url(r'^calculate_this_week/', calculate_this_week, name='calculate_this_week'),
 
-    url(r'^try_delete/', try_delete, name='try_delete'),
 
 
 
@@ -57,6 +51,6 @@ urlpatterns = patterns('',
 
     #static
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.STATIC_ROOT, }),
+        {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
 
 )

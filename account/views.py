@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from django.http import HttpResponse
 import json as simplejson
 from django.shortcuts import *
@@ -194,77 +195,79 @@ def detail_view(request):
     template = loader.get_template("detail_view.html")
     exp_list = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
     response = {'success': True, 'exp_list': exp_list}
-    #return HttpResponse(template.render(response), mimetype="text/javascript")
-    #return render(request, 'detail_view.html', response)
-    #return HttpResponse(simplejson.dumps(response), mimetype='application/json')
     return render_to_response('detail_view.html', locals(),
                               context_instance=RequestContext(request))
 
-@csrf_exempt
-def exact_date(request):
-    response = {'success': False, 'note': "user is not authenticated"}
-    if request.user.is_authenticated():
-        response = {'success': True, 'note': "user is authenticated"}
-
-    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
 @csrf_exempt
-def exact_date_view(request):
+def filter_all_func(request):
 
     current_user = request.user
     current_user_id = current_user.id
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    submitted_date = request.POST['chosen_date']
-    print(submitted_date)
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
-    #now = datetime.datetime.now()
-    #date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
+    submitted_date_one = request.POST.get('date_one', False)
+    submitted_date_two = request.POST.get('date_two', False)
+
+    first = request.POST.get('first_amount', False)
+    second = request.POST.get('second_amount', False)
+    submitted_name = request.POST.get('name_received', False)
+    submitted_desc = request.POST.get('desc_received', False)
+    submitted_comm = request.POST.get('comm_received', False)
+
+    kwargs = {}
+    if submitted_date_one is not "":
+        year_first = int(str((submitted_date_one.split("-")[0])).zfill(4))
+        month_first = int(str((submitted_date_one.split("-")[1])).zfill(2))
+        day_first = int(str((submitted_date_one.split("-")[2])).zfill(2))
+        kwargs['date_gte'] = datetime.date(year_first, month_first, day_first)
+
+    if submitted_date_two is not "":
+        year_second = int(str((submitted_date_two.split("-")[0])).zfill(4))
+        month_second = int(str((submitted_date_two.split("-")[1])).zfill(2))
+        day_second = int(str((submitted_date_two.split("-")[2])).zfill(2))
+        kwargs['date_lte'] = datetime.date(year_second, month_second, day_second)
+
+    if first is not "":
+        kwargs['amount_gte'] = first
+
+    if second is not "":
+        kwargs['amount_lte'] = second
+
+    if submitted_name is not "":
+        kwargs['expense_name__contains'] = submitted_name
+
+    if submitted_desc is not "":
+        kwargs['description__contains'] = submitted_desc
+
+    if submitted_comm is not "":
+        kwargs['comment__contains'] = submitted_comm
+
+    print(kwargs)
+
+    res = Expense.objects.filter(**kwargs)
 
 
-    template = loader.get_template("exact_date.html")
-    flt_date_list = ((Expense.objects.filter(user=current_user_id, date=datetime.date(2009, 8, 22))))
+    if res:
 
-    return render_to_response('exact_date.html', locals(),
-                              context_instance=RequestContext(request))
+        all_list = []
+        for obj in res:
 
+            id = str(obj.id)
+            name = str(obj.expense_name)
+            amount = str(obj.amount)
+            description = str(obj.description)
+            date = str(obj.date)
+            time = str(obj.time)
+            comment = str(obj.comment)
+            item = {'id': id, 'name': name, 'amount': amount, 'description': description, 'date': date, 'time': time, 'comment': comment}
+            all_list.append(item)
 
+        response = {'success': True, 'all_list': all_list, 'note': "expense result"}
 
-
-
-@csrf_exempt
-def exact_date(request):
-    response = {'success': False, 'note': "user is not authenticated"}
-    if request.user.is_authenticated():
-        response = {'success': True, 'note': "user is authenticated"}
-
+    else:
+        response = {'success': False, 'note': "no such expense"}
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
-
-
-@csrf_exempt
-def exact_date_view(request):
-
-    current_user = request.user
-    current_user_id = current_user.id
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    submited_amount = request.POST['chosen_amount']
-    print(submited_amount)
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
-    #now = datetime.datetime.now()
-    #date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
-
-
-    template = loader.get_template("exact_amount.html")
-    flt_amount_list = (Expense.objects.filter(user=current_user_id, amount=submited_amount))
-
-    return render_to_response('exact_amount.html', locals(),
-                              context_instance=RequestContext(request))
-
-
-
-
 
 '''
 class DetailView(generic.ListView):
@@ -309,13 +312,6 @@ def delete_expense(request):
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 
-def try_delete(request):
-
-    print("tryyyyyyyy deleteeeeeeeeeeeeeee")
-    print(request.POST["exp_id"])
-    response = {'success': True, 'note': "deleted"}
-    return HttpResponse(simplejson.dumps(response), mimetype='application/json')
-
 
 
 def edit_expense(request):
@@ -352,11 +348,7 @@ def calculate_day(request):
     response = {'success': False, 'avg': avg, 'note': "no entries"}
     current_user = request.user
     current_user_id = current_user.id
-    #received_date = str(request.POST['date'])
-    #year = received_date.split("-")[0]
-    #mnt = received_date.split("-")[1]
-    #day = received_date.split("-")[2]
-    #date = '-'.join([str(year).zfill(4), str(mnt).zfill(2), str(day).zfill(2)])
+
 
     e = list(Expense.objects.filter(user=current_user_id))
     if e:
