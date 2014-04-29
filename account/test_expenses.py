@@ -25,13 +25,14 @@ def main(argv):
   os.environ['DJANGO_SETTINGS_MODULE'] = settings_module
   # Now you can import Django stuff
   import pytest
+  from django import VERSION as version
   from django.conf import settings
   from django.contrib.sites.models import Site
   from django.core.mail import EmailMultiAlternatives, get_connection
   from django.template.loader import render_to_string
   import toptal_site.settings
-  print("entered")
-  TestExpenses.test_profile_view(self=None)
+  print(version)
+  #TestExpenses.test_profile_view(self=None)
 
 
 
