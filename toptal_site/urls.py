@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 from account.views import *
-
+from rest_framework.urlpatterns import  format_suffix_patterns
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -19,14 +19,13 @@ urlpatterns = patterns('',
 
     url(r'^profile/', profile, name='profile'),
 
-
     url(r'^add_new_expense_url/', add_new_expense_url, name='add_new_expense_url'),
     url(r'^add_new_expense/', add_new_expense, name='add_new_expense'),
     url(r'^go_back_url/', go_back_url, name='go_back_url'),
 
     url(r'^details/', details, name='details'),
 
-#    url(r'^detail_view/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view'),
+    url(r'^detail_view_rest/', DetailView.as_view(), {'template_name': 'detail_view.html'}, name='detail_view_rest'),
     url(r'^detail_view/', detail_view, name='detail_view'),
 
     url(r'^filter_all_func/', filter_all_func, name='filter_all_func'),

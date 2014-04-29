@@ -26,6 +26,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.utils.dateformat import DateFormat, TimeFormat
 from django.template.response import TemplateResponse
+from account.models import Expense
+from account.serializers import ExpenseSerializer
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+
 
 
 def home(request):
@@ -294,6 +301,26 @@ class DetailView(generic.ListView):
 
 
 '''
+
+
+class DetailView(APIView):
+
+    model = Expense
+    template_name = "detail_view.html"
+    context_object_name = 'exp_list'
+
+    @csrf_exempt
+    def get_queryset(self):
+
+        current_user = self.request.user
+        current_user_id = current_user.id
+        expenses = ((Expense.objects.filter(user=current_user_id)).order_by('-date')).order_by('-time')
+        exp_list = ExpenseSerializer(expenses, many=True)
+        return Response(exp_list)
+
+
+
+
 
 
 def delete_expense(request):
