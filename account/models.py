@@ -15,4 +15,7 @@ class Expense(models.Model):
     user = models.ForeignKey(User)
 
     def __unicode__(self):
-        return self.expense_name
+        return "expense named %s" % self.expense_name
+
+    class Meta:
+        verbose_name_plural = "Expenses"
