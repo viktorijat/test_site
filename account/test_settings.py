@@ -1,4 +1,4 @@
-from toptal_site.settings import *
+from test_site.settings import *
 
 
 DATABASES = {

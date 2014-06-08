@@ -274,6 +274,7 @@ def filter_all_func(request):
 
     else:
         response = {'success': False, 'note': "no such expense"}
+
     return HttpResponse(simplejson.dumps(response), mimetype='application/json')
 
 '''
@@ -409,9 +410,12 @@ def calculate_day(request):
 
 @csrf_exempt
 def calculate_this_week(request):
+
     now = datetime.datetime.now()
+
     date = '-'.join([str(now.year).zfill(4), str(now.month).zfill(2), str(now.day).zfill(2)])
     time = ':'.join([str(now.hour).zfill(2), str(now.minute).zfill(2), str(now.second).zfill(2)])
+
 
     today = datetime.datetime.today().weekday() + 1
     first_week_day = now - datetime.timedelta(days=today - 1)
